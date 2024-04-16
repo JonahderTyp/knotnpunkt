@@ -16,10 +16,12 @@ from ..database.db import (
 )
 from .material import material_site
 from .user import user_site
+from .admin import admin_site
 
 site = Blueprint("site", __name__, template_folder="templates")
 site.register_blueprint(material_site)
 site.register_blueprint(user_site)
+site.register_blueprint(admin_site)
 
 
 @site.route('/')
@@ -98,12 +100,6 @@ def home():
 @login_required
 def kalender():
     return render_template('kalender.html')
-
-
-@site.route("/einstellungen")
-@login_required
-def einstellungen():
-    return render_template('server_einstellungen.html')
 
 
 @site.route("/auslagen")

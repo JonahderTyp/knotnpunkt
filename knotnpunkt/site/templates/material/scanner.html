@@ -60,7 +60,7 @@
 
     function checkout() {        // Funktion des "Jetzt Mitnehmen"-Buttons
         console.log('Material wird ausgecheckt: ' + gescannte_id);
-        fetch("/api/material/checkout", {
+        fetch("{{ url_for('api.material.checkout') }}", {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
@@ -90,7 +90,7 @@
                 (decodedText, decodedResult) => {       // Was passiert wenn ein Code gescannt wurde:
                     console.log('Code erkannt:', decodedText)
                     html5QrCode.pause();                 // Scanner stoppen
-                    fetch("/api/qrcode/decode", {
+                    fetch("{{ url_for('api.material.decode_qrcode') }}", {
                         method: "POST",
                         headers: {
                             'Content-Type': 'application/json'

@@ -55,8 +55,8 @@
 
 <script>
     function changeqrvalue(clicked_id) {
-        fetch("/api/qrcode/generator?id=" + clicked_id, {
-            method: "GET",
+        fetch("{{ url_for('api.material.qrcode_generator') }}" + "?id=" + clicked_id, {
+            method: "GET", 
             headers: { "Content-Type": "application/json" },
         })
             .then((response) => response.json())

@@ -27,13 +27,13 @@ from ..export.file_generators import (
 )
 
 
-api_routes = Blueprint("api", __name__, template_folder="templates",
-                       url_prefix="")
+materialBlueprint = Blueprint("material", __name__, template_folder="templates",
+                       url_prefix="/material")
 
 
-@api_routes.route('/material')
+@materialBlueprint.route('/')
 @login_required
-def material_api():
+def material():
     if request.args.get("id"):
         material = [Material.query.get(request.args.get("id"))]
     else:
@@ -55,9 +55,9 @@ def material_api():
     abort(501)
 
 
-@api_routes.route('/qrcode/generator')
+@materialBlueprint.route('/qrcode/generator')
 @login_required
-def qr_generator():
+def qrcode_generator():
     print(request.date)
     if not request.args.get("id"):
         abort(404)
@@ -70,7 +70,7 @@ def qr_generator():
     return {"qrcode": qrcode.svg_inline(scale=5), "name": artikel.name}
 
 
-@api_routes.route("/qrcode/decode", methods=['POST'])
+@materialBlueprint.route("/qrcode/decode", methods=['POST'])
 @login_required
 def decode_qrcode():
     if not request.data:
@@ -84,7 +84,7 @@ def decode_qrcode():
     return {"success": True, "id": data[2]}
 
 
-@api_routes.route("/material/export", methods=['POST'])
+@materialBlueprint.route("/export", methods=['POST'])
 @login_required
 def test():
     if request.method != 'POST':
@@ -103,7 +103,7 @@ def test():
     except ExportError as e:
         return {"success": False, "msg": e.args[0]}
 
-@api_routes.route('/material/checkout', methods=['POST'])
+@materialBlueprint.route('/checkout', methods=['POST'])
 @login_required
 def checkout():
     print(request.json)

@@ -14,7 +14,7 @@ from .database.db import (
     Benutzer,
 )
 from .site import site
-from .api import api
+from .apiv1 import apiv1
 from .utils import convertTime
 from ._version import __version__
 from ._update import check_current_head, apply_upgrade
@@ -100,7 +100,7 @@ def create_app(prevent_context_recursion: bool = False):
 
     # Register Blueprints
     app.register_blueprint(site)
-    app.register_blueprint(api)
+    app.register_blueprint(apiv1)
 
     # Initializing flask-login extension
     login_manager = LoginManager()

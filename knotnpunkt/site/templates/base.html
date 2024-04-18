@@ -75,32 +75,14 @@
             <!-- <span class="ms-1 d-none d-sm-inline">{{a}}</span> -->
           </a>
         </li>
-        {%for a in current_user.views()%}
+        {%for view in views%}
         <li class="nav-item">
-          <a href="/{{a.lower()}}" class="nav-link text-truncate">
-            <i class="fs-5">{{a}}</i>
+          <a href="{{view.url}}" class="nav-link text-truncate">
+            <i class="fs-5">{{view.name}}</i>
             <!-- <span class="ms-1 d-none d-sm-inline">{{a}}</span> -->
           </a>
         </li>
         {%endfor%}
-        <li class="nav-item">
-          <a href="/auslagen" class="nav-link text-truncate">
-            <i class="fs-5">Auslagen</i>
-            <!-- <span class="ms-1 d-none d-sm-inline">{{a}}</span> -->
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="{{ url_for('site.material_site.scanner')}}" class="nav-link text-truncate">
-            <i class="fs-5">Scanner</i>
-            <!-- <span class="ms-1 d-none d-sm-inline">{{a}}</span> -->
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="{{ url_for('site.material_site.qrcode_generator') }}" class="nav-link text-truncate">
-            <i class="fs-5">QR code generator</i>
-            <!-- <span class="ms-1 d-none d-sm-inline">{{a}}</span> -->
-          </a>
-        </li>
         <li class="nav-item">
           <a href="{{ url_for('site.user_site.profil', benutzername=current_user.benutzername) }}"
             class="nav-link text-truncate">

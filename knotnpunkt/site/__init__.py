@@ -1,4 +1,5 @@
 from datetime import date
+from os import environ
 from flask import request, Response, Blueprint
 from flask.helpers import url_for
 from flask.templating import render_template
@@ -22,6 +23,28 @@ site = Blueprint("site", __name__, template_folder="templates")
 site.register_blueprint(material_site)
 site.register_blueprint(user_site)
 site.register_blueprint(admin_site)
+
+
+@site.context_processor
+def inject_views():
+    if not current_user.is_authenticated:
+        return {}
+    usr: Benutzer = current_user
+    views = []
+    for view in [i.lower() for i in usr.views()]:
+        if "kalender" in view:
+            views.append({"name": "Kalender", "url": url_for("site.kalender")})
+        if "benutzer" in view:
+            views.append({"name": "Benutzer", "url": url_for("site.user_site.benutzer")})
+        if "material" in view:
+            views.append({"name": "Material", "url": url_for("site.material_site.material")})
+            views.append({"name": "Scanner", "url": url_for("site.material_site.scanner")})
+            views.append({"name": "QR code generator", "url": url_for("site.material_site.qrcode_generator")})
+        if "einstellungen" in view:
+            views.append({"name": "Einstellungen", "url": url_for("site.admin_site.einstellungen")})
+    if environ.get("KP_AUSLAGEN_AKTIV", True):
+        views.append({"name": "Auslagen", "url": url_for("site.auslagen_uebersicht")})
+    return {"views": views}
 
 
 @site.route('/')

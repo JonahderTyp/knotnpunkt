@@ -114,19 +114,19 @@ class Benutzer(db.Model):
     def set_passwort(self, neues_passwort: str) -> None:
         self.passwort = generate_password_hash(neues_passwort)
 
-    def is_active(self):
+    def is_active(self) -> bool:
         return True
 
-    def is_authenticated(self):
+    def is_authenticated(self) -> bool:
         return self.eingeloggt
 
-    def is_anonymous(self):
+    def is_anonymous(self) -> bool:
         return False
 
-    def get_id(self):
+    def get_id(self) -> str | None:
         return self.benutzername
 
-    def views(self):
+    def views(self) -> list[str]:
         rechte = [key for key, value in self.rechte().items() if value == True]
         ansichten = []
         for r in rechte:
@@ -140,7 +140,7 @@ class Benutzer(db.Model):
                 ansichten.append("Einstellungen")
         return list(dict.fromkeys(ansichten))
 
-    def rechte(self):
+    def rechte(self) -> dict[str, bool]:
         return {
             'benutzerSchreiben': self.Rolle.schreibenBenutzer,
             'benutzerLesen': self.Rolle.lesenBenutzer,

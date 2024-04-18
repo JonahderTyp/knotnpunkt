@@ -119,7 +119,7 @@
                         listgroup = $('#auslagen-list-group');
                         $('#no-auslagen-alert').hide();
                         function getNewData() {
-                            fetch(`/api/auslagen?onlyAuthored=true`, {})
+                            fetch(`/api/v1/auslagen?onlyAuthored=true`, {})
                                 .then((response) => response.json())
                                 .then((data) => {
                                     if (data.response.length > 0) {

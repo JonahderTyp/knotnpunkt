@@ -5,9 +5,9 @@ from flask import Blueprint
 from .material import materialBlueprint
 from .auslagen import auslagen_routes
 
-api = Blueprint("api", __name__, template_folder="templates",
-                url_prefix="/api")
+apiv1 = Blueprint("apiv1", __name__, template_folder="templates",
+                url_prefix="/api/v1")
 
-api.register_blueprint(materialBlueprint)
+apiv1.register_blueprint(materialBlueprint)
 if environ.get("KP_AUSLAGEN_AKTIV", True):
-    api.register_blueprint(auslagen_routes)
+    apiv1.register_blueprint(auslagen_routes)

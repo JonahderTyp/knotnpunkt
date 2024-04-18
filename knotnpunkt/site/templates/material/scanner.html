@@ -60,7 +60,7 @@
 
     function checkout() {        // Funktion des "Jetzt Mitnehmen"-Buttons
         console.log('Material wird ausgecheckt: ' + gescannte_id);
-        fetch("{{ url_for('api.material.checkout') }}", {
+        fetch("{{ url_for('apiv1.material.checkout') }}", {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
@@ -90,7 +90,7 @@
                 (decodedText, decodedResult) => {       // Was passiert wenn ein Code gescannt wurde:
                     console.log('Code erkannt:', decodedText)
                     html5QrCode.pause();                 // Scanner stoppen
-                    fetch("{{ url_for('api.material.decode_qrcode') }}", {
+                    fetch("{{ url_for('apiv1.material.decode_qrcode') }}", {
                         method: "POST",
                         headers: {
                             'Content-Type': 'application/json'
@@ -117,7 +117,7 @@
                                     }
                                 })
                                 $.ajax({            //holt sich den Namen des Materials für die alert-Box
-                                    url: '/api/material?id=' + data.id,
+                                    url: '/api/v1/material?id=' + data.id,
                                     success: function (result) {
                                         result = JSON.parse(result);
                                         console.log(result);

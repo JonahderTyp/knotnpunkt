@@ -68,7 +68,7 @@
             <script>
                 function delete_auslage(id){
                     fetch(
-                        `/api/auslagen/${id}`,
+                        `/api/v1/auslagen/${id}`,
                         {
                             method: "DELETE"
                         }
@@ -84,7 +84,7 @@
 
                 function accept_auslage(id){
                     fetch(
-                        `/api/auslagen/${id}?action=freigabe`,
+                        `/api/v1/auslagen/${id}?action=freigabe`,
                         {
                             method: "PATCH"
                         }
@@ -100,7 +100,7 @@
 
                 function check_auslage(id){
                     fetch(
-                        `/api/auslagen/${id}?action=done`,
+                        `/api/v1/auslagen/${id}?action=done`,
                         {
                             method: "PATCH"
                         }
@@ -121,7 +121,7 @@
                 function getNewData() {
                     listgroup[0].innerHTML = "";
                     $('#ajax-loading').show();
-                    fetch(`/api/auslagen`, {})
+                    fetch(`/api/v1/auslagen`, {})
                         .then((response) => response.json())
                         .then((data) => {
                             if (data.response.length > 0) {
@@ -173,7 +173,7 @@
                                     <div class="row">                                  
                                         <p class="col-5 mb-1 text-secondary text-truncate"><span style="font-family:monospace">#${data.response[i].idAuslage}</span> | ${data.response[i].grund}</p>
                                         <div class="col col-md-3 offset-3 offset-md-4 btn-group" role="group" aria-label="Basic example">
-                                            <a class="btn btn-outline-dark btn-sm" href="/api/auslagen/export?id=${data.response[i].idAuslage}&type=pdf"><i class="bi bi-printer-fill"></i></a>
+                                            <a class="btn btn-outline-dark btn-sm" href="/api/v1/auslagen/export?id=${data.response[i].idAuslage}&type=pdf"><i class="bi bi-printer-fill"></i></a>
                                             <button type="button" class="btn btn-outline-danger btn-sm" onclick="delete_auslage(${data.response[i].idAuslage})" ${delButton}><i class="bi bi-trash-fill"></i></button>
                                             <button type="button" class="btn btn-outline-dark btn-sm" onclick="accept_auslage(${data.response[i].idAuslage})" ${acceptButton}><i class="bi ${acceptIcon}"></i></button>
                                             <button type="button" class="btn btn-outline-dark btn-sm" onclick="check_auslage(${data.response[i].idAuslage})" ${checkButton}><i class="bi ${checkIcon}"></i></button>
@@ -388,7 +388,7 @@
             formData.append("kategorieId", kategorieId.value)
             formData.append("kontoinhaber", kontoInhab.value)
             formData.append("belegbild", belegbild.files[0])
-            fetch(`/api/auslagen/`, {
+            fetch(`/api/v1/auslagen/`, {
                 method: "POST",
                 body: formData
             })

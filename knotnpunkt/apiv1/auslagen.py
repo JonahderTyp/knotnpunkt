@@ -18,6 +18,7 @@ from ..database.db import (
 )
 from ..utils import (
     allowed_file,
+    get_bool_env
 )
 from .._version import __version__
 from ..export.file_generators import (
@@ -29,7 +30,14 @@ from ..export.file_generators import (
 logger = logging.getLogger("knotnpunkt")
 
 auslagen_routes = Blueprint("auslagen_routes", __name__, template_folder="templates",
-                url_prefix="/auslagen")
+                            url_prefix="/auslagen")
+
+
+@auslagen_routes.before_request
+def before():
+    if not get_bool_env("KP_AUSLAGEN_AKTIV", True):
+        abort(501)  # Feature not enabled -> abort with Not Implemented
+
 
 @auslagen_routes.get("/")
 @login_required

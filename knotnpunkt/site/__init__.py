@@ -1,5 +1,4 @@
 from datetime import date
-from os import environ
 from flask import request, Blueprint
 from flask.helpers import url_for
 from flask.templating import render_template
@@ -13,6 +12,7 @@ from ..database.db import (
     Material,
     Ausleihe,
 )
+from ..utils import get_bool_env
 from .material import material_site
 from .user import user_site
 from .admin import admin_site
@@ -22,8 +22,7 @@ site = Blueprint("site", __name__, template_folder="templates")
 site.register_blueprint(material_site)
 site.register_blueprint(user_site)
 site.register_blueprint(admin_site)
-if environ.get("KP_AUSLAGEN_AKTIV", True):
-    site.register_blueprint(auslagen_site)
+site.register_blueprint(auslagen_site)
 
 
 @site.context_processor
@@ -48,7 +47,7 @@ def inject_views():
         if "einstellungen" in view:
             views.append({"name": "Einstellungen", "url": url_for(
                 "site.admin_site.einstellungen")})
-    if environ.get("KP_AUSLAGEN_AKTIV", True):
+    if get_bool_env("KP_AUSLAGEN_AKTIV", True):
         views.append({"name": "Auslagen", "url": url_for(
             "site.auslagen_site.auslagen_uebersicht")})
     return {"views": views}

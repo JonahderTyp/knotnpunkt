@@ -1,3 +1,4 @@
+import os
 import humanize as hu
 from sqlalchemy import desc
 import json
@@ -67,3 +68,39 @@ def allowed_file(filename):
     """
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ["png", "jpg", "jpeg", "gif"]
+
+
+def get_bool_env(var_name: str, default: bool | None = False) -> bool | ValueError | None:
+    """ 
+    Retrieve an environment variable and convert it to a boolean.
+
+    This function fetches the value of an environment variable and attempts to interpret it as a boolean. 
+    Common boolean string representations such as 'true', '1', 't', 'y', 'yes', 'on' for True, and 'false', 
+    '0', 'f', 'n', 'no', 'off' for False are supported. If the value is not one of these, or if it's missing
+    and no default is provided, the function raises a ValueError.
+
+    Args:
+        var_name (str): The name of the environment variable to retrieve.
+        default (bool | None): The default value to return if the environment variable is not set. 
+            If `None`, it indicates no default value is provided.
+
+    Returns:
+        bool | None: The boolean value of the environment variable or the default value if the variable is not set.
+
+    Raises:
+        ValueError: If the environment variable's value cannot be interpreted as a boolean and no default is provided.
+
+    Example:
+        >>> get_bool_env('FEATURE_ENABLED')
+        True
+        >>> get_bool_env('INVALID_VALUE')
+        ValueError: Env var could not be parsed
+    """
+    value = os.getenv(var_name)
+    if value is None:
+        return default
+    if value.lower() in ['true', '1', 't', 'y', 'yes', 'on']:
+        return True
+    if value.lower() in ['false', '0', 'f', 'n', 'no', 'off']:
+        return False
+    raise ValueError("Env var could not be parsed")

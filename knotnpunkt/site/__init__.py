@@ -40,10 +40,6 @@ def inject_views():
         if "material" in view:
             views.append({"name": "Material", "url": url_for(
                 "site.material_site.material")})
-            views.append({"name": "Scanner", "url": url_for(
-                "site.material_site.scanner")})
-            views.append({"name": "QR code generator", "url": url_for(
-                "site.material_site.qrcode_generator")})
         if "einstellungen" in view:
             views.append({"name": "Einstellungen", "url": url_for(
                 "site.admin_site.einstellungen")})
